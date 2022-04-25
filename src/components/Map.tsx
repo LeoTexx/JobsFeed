@@ -6,6 +6,8 @@ import mapPin from "../assets/icons/pin.svg";
 import { ApiResponse } from "../types/api";
 import { Position } from "../types/map";
 
+import style from "../styles/Map.module.scss";
+
 interface Props {
   location: Position<number>;
   job: ApiResponse;
@@ -27,11 +29,7 @@ function SelectedJobMarker({ location }: any) {
 
 export function Map({ location, job, position }: Props) {
   return (
-    <MapContainer
-      center={location}
-      zoom={5}
-      style={{ width: "50%", height: "100%" }}
-    >
+    <MapContainer center={location} zoom={5} className={style.container}>
       <TileLayer
         url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_ACCESS_TOKEN_MAP_BOX}`}
       />

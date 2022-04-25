@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Footer, Header, Link, LoadingSpinner } from "@textkernel/oneui";
+import { useMediaQuery } from "react-responsive";
 import { v4 as uuidv4 } from "uuid";
 
 import { Card } from "./components/Card";
@@ -13,6 +14,7 @@ import { Position } from "./types/map";
 import { SearchBar } from "./components/SearchBar";
 
 function App() {
+  const [isFeedOpen, setIsFeedOpen] = useState<boolean>(true);
   const [jobs, setJobs] = useState<Array<Job>>([] as Array<Job>);
   const [filteredJobs, setFilteredJobs] = useState<Array<Job>>(
     [] as Array<Job>
@@ -24,6 +26,7 @@ function App() {
     lng: 4.937249840694807,
   });
   const { getJobs } = useApi();
+  const isMobile = useMediaQuery({ maxWidth: 768 });
 
   const fetchJobs = async () => {
     const data = await getJobs();
@@ -41,6 +44,7 @@ function App() {
     };
     setJobLocation(coords);
     setSelectedJob(job);
+    setIsFeedOpen(false);
   };
 
   const filterJobs = (search: string) => {
@@ -101,18 +105,28 @@ function App() {
       </Header>
 
       <section className={style.feed}>
-        <div className={style.searchFeed}>
-          <SearchBar onSearch={filterJobs} />
-          <div className={style.scroll}>
-            {filteredJobs.map((job: Job) => (
-              <Card
-                key={job.id}
-                job={job}
-                onSelect={findJob}
-                onDelete={removeJob}
-              />
-            ))}
-          </div>
+        <div className={isFeedOpen ? style.searchFeed : style.hideFeed}>
+          <div
+            className={style.swipe}
+            onClick={() => isMobile && setIsFeedOpen(!isFeedOpen)}
+          />
+
+          {isFeedOpen && (
+            <>
+              {" "}
+              <SearchBar onSearch={filterJobs} />
+              <div className={style.scroll}>
+                {filteredJobs.map((job: Job) => (
+                  <Card
+                    key={job.id}
+                    job={job}
+                    onSelect={findJob}
+                    onDelete={removeJob}
+                  />
+                ))}
+              </div>
+            </>
+          )}
         </div>
         <Map job={selectedJob} location={jobLocation} position={jobLocation} />
       </section>
