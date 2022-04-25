@@ -44,7 +44,7 @@ function App() {
     };
     setJobLocation(coords);
     setSelectedJob(job);
-    setIsFeedOpen(false);
+    isMobile && setIsFeedOpen(false);
   };
 
   const filterJobs = (search: string) => {
