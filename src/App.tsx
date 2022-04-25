@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Footer, Header, Link, LoadingSpinner } from "@textkernel/oneui";
 import { v4 as uuidv4 } from "uuid";
 
@@ -54,6 +54,21 @@ function App() {
     setFilteredJobs(filter);
   };
 
+  const removeJob = (job: Job) => {
+    const newJobs = jobs.filter((originalJob) => {
+      return job.id !== originalJob.id;
+    });
+    setJobs(newJobs);
+    if (jobs.length === filterJobs.length) {
+      setFilteredJobs(newJobs);
+    } else {
+      const newFilteredJobs = filteredJobs.filter((originalJob) => {
+        return job.id !== originalJob.id;
+      });
+      setFilteredJobs(newFilteredJobs);
+    }
+  };
+
   useEffect(() => {
     setIsLoading(true);
     fetchJobs();
@@ -90,16 +105,26 @@ function App() {
           <SearchBar onSearch={filterJobs} />
           <div className={style.scroll}>
             {filteredJobs.map((job: Job) => (
-              <Card key={job.id} job={job} onSelect={findJob} />
+              <Card
+                key={job.id}
+                job={job}
+                onSelect={findJob}
+                onDelete={removeJob}
+              />
             ))}
           </div>
         </div>
         <Map job={selectedJob} location={jobLocation} position={jobLocation} />
       </section>
       <Footer copyright={undefined}>
-        Check the source code in
-        <Link context="brand" dontDecorateOnHover={false} href="/">
-          and a link
+        Check the source code
+        <Link
+          context="brand"
+          dontDecorateOnHover={false}
+          href="https://github.com/LeoTexx/JobsFeed"
+        >
+          {" "}
+          here
         </Link>
       </Footer>
     </main>
