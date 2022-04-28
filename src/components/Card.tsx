@@ -1,7 +1,9 @@
-import { Job } from "../types/api";
-import style from "../styles/Card.module.scss";
+import React, { memo } from "react";
 import { Button, StepperButton } from "@textkernel/oneui";
-import { memo } from "react";
+
+import { Job } from "../types/api";
+
+import style from "../styles/Card.module.scss";
 
 interface Props {
   job: Job;

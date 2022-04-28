@@ -113,7 +113,6 @@ function App() {
 
           {isFeedOpen && (
             <>
-              {" "}
               <SearchBar onSearch={filterJobs} />
               <div className={style.scroll}>
                 {filteredJobs.map((job: Job) => (
@@ -130,14 +129,13 @@ function App() {
         </div>
         <Map job={selectedJob} location={jobLocation} position={jobLocation} />
       </section>
-      <Footer copyright={undefined}>
+      <Footer copyright={undefined} style={{ zIndex: 999 }}>
         Check the source code
         <Link
           context="brand"
           dontDecorateOnHover={false}
           href="https://github.com/LeoTexx/JobsFeed"
         >
-          {" "}
           here
         </Link>
       </Footer>
