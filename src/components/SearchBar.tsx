@@ -1,5 +1,5 @@
 import { Input, SearchButton } from "@textkernel/oneui";
-import { useState } from "react";
+import React, { useState } from "react";
 
 import style from "../styles/SearchBar.module.scss";
 
@@ -19,15 +19,18 @@ export function SearchBar({ onSearch }: Props) {
   return (
     <label className={style.container}>
       <Input
+        data-testid="search-bar"
         disabled={false}
         isBlock={false}
+        value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         onKeyPress={searchText}
-        placeholder="Some text goes here..."
+        placeholder="Find your dream job"
         size="normal"
         type="search"
       />
       <SearchButton
+        data-testid="search-button"
         disabled={false}
         onClick={() => onSearch(searchQuery)}
         type="submit"
